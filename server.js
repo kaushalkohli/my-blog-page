@@ -181,7 +181,7 @@ app.post('/posts', auth ,async(req, res)=>{
         user.posts.push(savePost._id);
         await user.save();
 
-        console.log(savePost)
+        // console.log(savePost)
         res.redirect(`/posts/${savePost._id}`);
 
 
