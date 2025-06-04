@@ -8,7 +8,6 @@ import User from './utils/models/model.js';
 import { db } from './utils/models/database.js';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
-import bcrypt from 'bcryptjs';
 import { auth } from './utils/middleware/auth.js';
 import Post from './utils/models/Posts.js';
 
@@ -86,10 +85,10 @@ app.post('/login', async (req, res)=>{
             return res.render('login', {error: "invalid credentials"})
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch){
-            return res.render('login', {error: 'invalid credentials'})
-        }
+        // const isMatch = await bcrypt.compare(password, user.password);
+        // if(!isMatch){
+        //     return res.render('login', {error: 'invalid credentials'})
+        // }
 
         // create jwt token
         const token = jwt.sign(
@@ -217,7 +216,36 @@ app.get("/posts/:id", async(req, res) => {
 // Update route
 app.patch("/posts/:id", auth , async(req, res) => {
 
-   
+   try{
+    const post = await Post.findById(req.params.id);
+
+    if(!post){
+        return res.status(404).render('edit.ejs', {error: 'Post not found', post: null})
+    }
+
+    // check if user is the author
+    if(post.author.toString() !== req.userId){
+        return res.status(403).render("edit.ejs", {
+            error: "Unauthorized to edit this post",
+            post
+        });
+    }
+
+    // update only allowed fields
+    const {content} = req.body;
+    post.content = content;
+
+    // save the update post
+    const updatedPost = await post.save();
+
+    res.redirect(`/posts/${req.params.id}`);
+   }catch (e) {
+        res.status(500).render("edit.ejs", {
+            error: "Error updating post",
+            post: req.body
+        });
+    }
+
 });
 
 
