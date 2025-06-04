@@ -1,0 +1,85 @@
+<style>
+    /* Footer Styles */
+.footer {
+    position: relative;
+    background-color: #333;
+    color: white;
+    padding: 2rem 0;
+    margin-top: auto;
+    width: 100%;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    margin-right: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+
+
+.footer-social a {
+    color: white;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.footer-social a:hover {
+    transform: translateY(-3px);
+    color: #007bff;
+}
+
+.footer-copyright {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 568px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    /* .footer-links a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+
+    .footer-social {
+        margin: 1rem 0;
+    } */
+}
+</style>
+
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <a href="#contact">Contact Us</a>
+        </div>
+        <div class="footer-social">
+            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <div class="footer-copyright">
+            &copy; <%= new Date().getFullYear() %> Your Blog Name. All rights reserved.
+        </div>
+    </div>
+</footer>

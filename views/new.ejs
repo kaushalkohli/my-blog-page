@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Post</title>
+    <style>
+    .form-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .page-title {
+        text-align: center;
+        color: #333;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #444;
+        font-weight: 500;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+    }
+
+    textarea.form-input {
+        min-height: 200px;
+        resize: vertical;
+    }
+
+    .submit-btn {
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+    }
+</style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    
+    <%- include('partials/navbar') %>
+    
+    <div class="form-container">
+        
+        <h1 class="page-title">Create New Blog Post</h1>
+        
+        <form action="/posts" method="POST" class="post-form">
+            <div class="form-group">
+                <label for="username" class="form-label">Your Name</label>
+                <input 
+                    type="text" 
+                    name="username" 
+                    id="username" 
+                    class="form-input" 
+                    placeholder="Enter your name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="content" class="form-label">Your Post</label>
+                <textarea 
+                    name="content" 
+                    id="content" 
+                    class="form-input" 
+                    placeholder="Write your post here..."
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-paper-plane"></i> Publish Post
+            </button>
+        </form>
+    </div>
+
+    <%- include('./partials/footer') %>
+
+</body>
+</html>

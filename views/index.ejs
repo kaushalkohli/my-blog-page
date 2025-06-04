@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All posts</title>
+    <style>
+        
+    .posts-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .page-title {
+        text-align: center;
+        color: #333;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+    }
+
+    .post-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        transition: transform 0.2s ease;
+    }
+
+    .post-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .post-author {
+        font-size: 1.2rem;
+        color: #007bff;
+        font-weight: 500;
+    }
+
+    .post-content {
+        color: #444;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .post-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .action-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .view-btn {
+        background: #007bff;
+        color: white;
+    }
+
+    .edit-btn {
+        background: #28a745;
+        color: white;
+    }
+
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .action-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+    }
+</style>
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <body>
+    <%- include('./partials/navbar') %>
+    
+    <div class="posts-container">
+        <h1 class="page-title">Blog Posts</h1>
+
+        <% posts.forEach((post) => { %>
+            <div class="post-card">
+                <div class="post-header">
+                    <h3 class="post-author">
+                        <i class="fas fa-user"></i> <%= post.username %>
+                    </h3>
+                </div>
+                <p class="post-content"><%= post.content %></p>
+                <div class="post-actions">
+                    <a href="/posts/<%= post.id %>" class="action-btn view-btn">
+                        <i class="fas fa-eye"></i> View
+                    </a>
+                    <a href="/posts/<%= post.id %>/edit" class="action-btn edit-btn">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form method="POST" action="/posts/<%= post.id %>?_method=DELETE" style="display: inline;">
+                        <button type="submit" class="action-btn delete-btn">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+
+    <%- include('./partials/footer') %>
+
+</body>
+</html>
