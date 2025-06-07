@@ -102,7 +102,16 @@
             <div class="post-card">
                 <div class="post-header">
                     <h3 class="post-author">
-                        <i class="fas fa-user"></i> <%= post.username %>
+                        <i class="fas fa-user"> : <%= post.username %> &nbsp;|&nbsp; &nbsp;
+                            <span class="post-date">
+                            <%= new Date(post.createdAt).toLocaleDateString('en-IN', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                            }) %>
+                            </span></i> 
                     </h3>
                 </div>
                 <p class="post-content"><%= post.content %></p>
