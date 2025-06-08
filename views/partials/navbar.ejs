@@ -84,6 +84,25 @@
             transform: none;
         }
     }
+
+    .nav-auth {
+        display: flex;
+        gap: 2rem;
+
+    }
+    .nav-auth a {
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+        font-size: 1.1rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+    .nav-auth a:hover {
+        background-color: #555;
+        transform: translateY(-2px);
+
+    }
 </style>
 
 <nav class="navbar">
@@ -97,16 +116,22 @@
             <a href="/posts/new">Create Post</a>
             <a href="/about">About</a>
             <a href="/contact">Contact</a>
-            <a href="/logout">Logout</a>
+            
+        </div>
+        <div class="nav-auth">
+            <div class="auth-links">
+            <% if (locals.token && locals.token.username) { %>
+                <a href="/logout">Logout</a>
+            <% }else{ %>
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            <% } %>
+        </div>
         </div>
     </div>
 </nav>
 
-<div class="auth-links">
-  <% if (locals.token) { %>
-        
-  <% } %>
-</div>
+
 
 
 

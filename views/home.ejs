@@ -86,16 +86,23 @@
     <%- include('./partials/navbar') %>
     <!-- Main Content Area -->
 
-        <div class="container">
-        <div class="header">
-        <h1>Welcome to Blog Page</h1>
-        <p>Share your thoughts and stories with the world</p>
+<div class="container">
+   
+    <div class="header">
+    <% if (locals.token && locals.token.username) { %>
+        <h1>Welcome back, <%= locals.token.username %>!</h1>
+    <% } else { %>
+        <h1>Welcome to our Blog</h1>
+    <% } %>
+    <p>Share your thoughts and stories with the world</p>
     </div>
+
+
 
     <h2>Recent Posts</h2>
     <div class="posts-grid">
         <% if(posts ) { %>
-            <% posts.slice(0, 3).forEach(post => { %>
+            <% posts.slice(0, 10).forEach(post => { %>
                 <div class="post-card">
                     <div class="post-content">
                         <div class="post-author">
@@ -124,6 +131,6 @@
     </div>
 </div>
 
-        <%- include('./partials/footer') %>
-    </body>
+    <%- include('./partials/footer') %>
+</body>
 </html>

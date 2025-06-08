@@ -9,6 +9,12 @@ export const auth = async (req, res, next) => {
         
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.userId = decoded.userId;
+
+        res.locals.token = {
+            userId: decoded.userId,
+            username: decoded.username 
+        };
+        
         next();
     } catch (e) {
         res.clearCookie('token');

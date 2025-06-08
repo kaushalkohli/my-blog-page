@@ -36,8 +36,13 @@ app.set("views", path.join(path.resolve(), 'views'));
 app.get('/', async(req, res)=>{
     try {
         const allPosts = await Post.find().populate('author', 'username').sort({createdAt: -1});
-        res.render('home.ejs', {posts : allPosts})
+
+        // get username form token if it exists
+        const username = req.cookies.token ? jwt.verify(req.cookies.token, process.env.JWT_SECRET).username : null;
+
+        res.render('home.ejs', {posts : allPosts, token:{username : username}})
     } catch (e) {
+        res.render('home.ejs')
         console.error('error',e)
     }
 })
@@ -51,8 +56,11 @@ app.get('/posts', async (req, res) => {
         const allPosts = await Post.find()
             .populate('author', 'username')
             .sort({ createdAt: -1 });
+
+            // get username from token if it exists
+            const username = req.cookies.token ? jwt.verify(req.cookies.token, process.env.JWT_SECRET).username:null;
         
-        res.render("index.ejs", { posts: allPosts });
+        res.render("index.ejs", { posts: allPosts, token:{username : username} });
     } catch (error) {
         console.error("Error fetching posts:", error);
         
@@ -92,8 +100,10 @@ app.post('/login', async (req, res)=>{
 
         // create jwt token
         const token = jwt.sign(
-            { userId : user._id },
-             process.env.JWT_SECRET,
+            { userId : user._id,
+            username: user.username // Add username to token
+            },
+            process.env.JWT_SECRET,
             { expiresIn: '24h' }
         )
         
@@ -104,7 +114,7 @@ app.post('/login', async (req, res)=>{
             maxAge: 24 * 60 * 60 * 1000 // 24 hours
         });
         
-        res.redirect('/posts');
+        res.redirect('/');
         
     }catch (e) {
         res.status(400).render('login', { error: 'Login failed' });
@@ -146,20 +156,29 @@ app.post('/userRegister', async (req, res) => {
 
 
 // get form route and post route
-app.get("/posts/new", auth,(req, res)=>{
-    res.render("new.ejs")
+app.get("/posts/new", auth, async (req, res)=>{
+
+    try {
+        const allPosts = await Post.find().populate('author', 'username').sort({createdAt: -1});
+        res.render('new.ejs', {posts : allPosts})
+        
+    } catch (e) {
+        console.error('Error fetching posts:', e);
+        res.status(500).send('Internal Server Error');
+    }
 })
-
-
 
 // route for crud operations
 app.post('/posts', auth ,async(req, res)=>{
     const {username, content} = req.body
+    
 
     try {
+        
         // get user info from auth token
         const user = await User.findById(req.userId);
 
+        
         if(!user){
             return res.status(401).render("new.ejs",{
                 error: "User not found"
@@ -171,8 +190,10 @@ app.post('/posts', auth ,async(req, res)=>{
             username,
             content,
             author: user._id,
-            username: user.username // store username for easy access
+            username: user.username, // store username for easy access
+            createdAt: new Date(),
         });
+
 
         // save post 
         const savePost = await newPost.save()
